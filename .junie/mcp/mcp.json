@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/opt/homebrew/Cellar/php@8.4/8.4.20/bin/php",
+            "args": [
+                "/Users/mihailssegins/social-casino-2/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

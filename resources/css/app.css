@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: 'Syne', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --color-gold-400: #fbbf24;
+    --color-gold-500: #f59e0b;
+    --color-gold-600: #d97706;
+    --color-casino-dark: #0b0e14;
+    --color-casino-card: #111622;
+    --color-casino-border: #1e2638;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+    background: #242e42;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #f59e0b;
+}
+
+/* Casino Glow Animations */
+@keyframes goldPulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.25), inset 0 0 15px rgba(245, 158, 11, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(245, 158, 11, 0.5), inset 0 0 25px rgba(245, 158, 11, 0.2);
+    }
+}
+
+@keyframes neonCyanGlow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(6, 182, 212, 0.65);
+    }
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-gold-glow {
+    animation: goldPulse 3s infinite ease-in-out;
+}
+
+.animate-cyan-glow {
+    animation: neonCyanGlow 2.5s infinite ease-in-out;
+}
+
+.animate-marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+}
+.animate-marquee:hover {
+    animation-play-state: paused;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+    background: rgba(17, 22, 34, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-gold {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.12) 0%, rgba(217, 119, 6, 0.04) 100%);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
