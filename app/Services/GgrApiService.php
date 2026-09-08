@@ -17,10 +17,10 @@ class GgrApiService
 
     public function __construct()
     {
-        $this->apiServer = rtrim(config('services.nexus_ggr.server', env('GGR_API_SERVER', 'https://api.nexusggr.dev')), '/');
-        $this->agentCode = config('services.nexus_ggr.agent_code', env('GGR_AGENT_CODE', 'crowdplay'));
-        $this->agentToken = config('services.nexus_ggr.agent_token', env('GGR_AGENT_TOKEN', 'c9540f990614ec0e60efa22d4c5fe5fe'));
-        $this->agentSecret = config('services.nexus_ggr.agent_secret', env('GGR_AGENT_SECRET', '7e49159d19c1db28e7f70966b1242606'));
+        $this->apiServer = rtrim(config('services.nexus_ggr.server', env('GGR_API_URL', env('GGR_API_SERVER', 'https://api.nexusggr.com'))), '/');
+        $this->agentCode = config('services.nexus_ggr.agent_code', env('GGR_AGENT_CODE', 'royalplay'));
+        $this->agentToken = config('services.nexus_ggr.agent_token', env('GGR_AGENT_TOKEN', '4ce1c45d75d90326811c4fb2cf3c3801'));
+        $this->agentSecret = config('services.nexus_ggr.agent_secret', env('GGR_AGENT_SECRET', '0fbfd24390fac179e21e1ccee9d243ff'));
     }
 
     /**
@@ -29,29 +29,42 @@ class GgrApiService
     public function getProviders(): array
     {
         try {
-            $response = Http::timeout(10)
-                ->withHeaders([
-                    'Agent-Code' => $this->agentCode,
-                    'Agent-Token' => $this->agentToken,
-                    'Accept' => 'application/json',
+            $response = Http::timeout(12)
+                ->withOptions([
+                    'force_ip_resolve' => 'v4',
                 ])
-                ->get("{$this->apiServer}/api/v1/providers");
+                ->withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+                ])
+                ->post($this->apiServer, [
+                    'method' => 'provider_list',
+                    'agent_code' => $this->agentCode,
+                    'agent_token' => $this->agentToken,
+                ]);
 
             if ($response->successful()) {
                 $json = $response->json();
-                if (isset($json['providers']) || isset($json['provider_list'])) {
+                if (isset($json['status']) && (int) $json['status'] === 1 && ! empty($json['providers'])) {
                     return [
-                        'status' => $json['status'] ?? 1,
-                        'providers' => $json['providers'] ?? $json['provider_list'] ?? [],
+                        'status' => 1,
+                        'providers' => $json['providers'],
                     ];
                 }
-            }
 
-            $msg = $response->json('msg') ?? $response->json('message') ?? 'API_UNREACHABLE';
+                $msg = $json['message'] ?? $json['msg'] ?? ($json['code'] ?? 'INVALID_RESPONSE');
+
+                return [
+                    'status' => 0,
+                    'msg' => $msg,
+                    'providers' => [],
+                ];
+            }
 
             return [
                 'status' => 0,
-                'msg' => $msg,
+                'msg' => 'HTTP_ERROR_'.$response->status(),
                 'providers' => [],
             ];
         } catch (\Throwable $e) {
@@ -59,7 +72,7 @@ class GgrApiService
 
             return [
                 'status' => 0,
-                'msg' => 'INVALID_IP: Whitelist required or connection timeout ('.$e->getMessage().')',
+                'msg' => 'INVALID_IP: Whitelist required or connection error ('.$e->getMessage().')',
                 'providers' => [],
             ];
         }
@@ -88,30 +101,42 @@ class GgrApiService
     public function getGames(string $providerCode): array
     {
         try {
-            $response = Http::timeout(10)
-                ->withHeaders([
-                    'Agent-Code' => $this->agentCode,
-                    'Agent-Token' => $this->agentToken,
-                    'Accept' => 'application/json',
+            $response = Http::timeout(15)
+                ->withOptions([
+                    'force_ip_resolve' => 'v4',
                 ])
-                ->get("{$this->apiServer}/api/v1/games", [
-                    'provider' => strtoupper($providerCode),
+                ->withHeaders([
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+                ])
+                ->post($this->apiServer, [
+                    'method' => 'game_list',
+                    'agent_code' => $this->agentCode,
+                    'agent_token' => $this->agentToken,
+                    'provider_code' => strtoupper($providerCode),
                 ]);
 
             if ($response->successful()) {
                 $json = $response->json();
                 $games = $json['games'] ?? $json['game_list'] ?? $json['data'] ?? null;
-                if (is_array($games)) {
+                if (isset($json['status']) && (int) $json['status'] === 1 && is_array($games)) {
                     return [
                         'status' => 1,
                         'games' => $games,
                     ];
                 }
+
+                return [
+                    'status' => 0,
+                    'msg' => $json['message'] ?? $json['msg'] ?? 'NO_GAMES_RETURNED',
+                    'games' => [],
+                ];
             }
 
             return [
                 'status' => 0,
-                'msg' => $response->json('msg') ?? 'NO_GAMES_RETURNED',
+                'msg' => 'HTTP_ERROR_'.$response->status(),
                 'games' => [],
             ];
         } catch (\Throwable $e) {

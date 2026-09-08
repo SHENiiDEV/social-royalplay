@@ -44,7 +44,7 @@ class GameController extends Controller
         $provider = $request->query('provider', 'all');
         $search = $request->query('search', '');
 
-        $query = Game::where('is_active', true)->where('category', '!=', 'live');
+        $query = Game::where('is_active', true);
 
         if ($category && $category !== 'all') {
             if ($category === 'favorites') {
@@ -65,16 +65,46 @@ class GameController extends Controller
                 }
             } elseif ($category === 'popular') {
                 $query->where(function ($q) {
-                    $q->where('is_featured', true)->orWhere('play_count', '>=', 50000);
+                    $q->where('is_featured', true)
+                        ->orWhere('is_recommended', true)
+                        ->orWhere('play_count', '>=', 500);
+                });
+            } elseif ($category === 'slots' || $category === 'Slots') {
+                $query->where(function ($q) {
+                    $q->where('category', 'Slots')
+                        ->orWhere('category', 'slots')
+                        ->orWhere('game_type', 'slot');
                 });
             } elseif (in_array($category, ['buy_feature', 'bonus_buy'], true)) {
-                $query->whereIn('category', ['buy_feature', 'bonus_buy']);
+                $query->where(function ($q) {
+                    $q->whereIn('category', ['buy_feature', 'bonus_buy'])
+                        ->orWhere('name', 'like', '%1000%')
+                        ->orWhere('name', 'like', '%Megaways%')
+                        ->orWhere('name', 'like', '%Gates of Olympus%')
+                        ->orWhere('name', 'like', '%Sweet Bonanza%')
+                        ->orWhere('name', 'like', '%Sugar Rush%')
+                        ->orWhere('name', 'like', '%Wanted Dead%');
+                });
             } elseif (in_array($category, ['megaways', 'mega_ways'], true)) {
-                $query->whereIn('category', ['megaways', 'mega_ways']);
+                $query->where(function ($q) {
+                    $q->whereIn('category', ['megaways', 'mega_ways'])
+                        ->orWhere('name', 'like', '%Megaways%')
+                        ->orWhere('game_code', 'like', '%ways%');
+                });
             } elseif (in_array($category, ['jackpots', 'jackpot'], true)) {
-                $query->whereIn('category', ['jackpots', 'jackpot']);
+                $query->where(function ($q) {
+                    $q->whereIn('category', ['jackpots', 'jackpot'])
+                        ->orWhere('name', 'like', '%Jackpot%')
+                        ->orWhere('name', 'like', '%Crown%')
+                        ->orWhere('name', 'like', '%Hot%')
+                        ->orWhere('max_multiplier', '>=', 10000);
+                });
             } else {
-                $query->where('category', $category);
+                $query->where(function ($q) use ($category) {
+                    $q->where('category', $category)
+                        ->orWhere('category', ucfirst(strtolower($category)))
+                        ->orWhere('game_type', strtolower($category));
+                });
             }
         }
 
@@ -89,6 +119,7 @@ class GameController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%")
                     ->orWhere('game_code', 'like', "%{$search}%")
                     ->orWhere('provider_code', 'like', "%{$search}%");
             });
@@ -99,19 +130,33 @@ class GameController extends Controller
             $perPage = 24;
         }
 
-        $games = $query->orderByDesc('is_featured')
-            ->orderByDesc('play_count')
+        $games = $query->orderByDesc('is_recommended')
+            ->orderByDesc('is_featured')
+            ->orderBy('sort_order')
             ->paginate($perPage)
             ->withQueryString();
 
-        $featuredGames = Game::where('is_active', true)->where('category', '!=', 'live')->where('is_featured', true)->take(8)->get();
+        $featuredGames = Game::where('is_active', true)->where('is_recommended', true)->take(8)->get();
+        if ($featuredGames->isEmpty()) {
+            $featuredGames = Game::where('is_active', true)->take(8)->get();
+        }
+
         $jackpot = Jackpot::first();
         $liveWins = LiveCommunityWin::orderByDesc('id')->take(15)->get();
 
         $providerNameMap = [
             'pragmatic' => 'Pragmatic Play',
-            'reelkingdom' => 'Reel Kingdom',
+            'pp_live_pro' => 'Pragmatic Live',
+            'pgsoft' => 'PG Soft',
             'hacksaw' => 'Hacksaw Gaming',
+            'playngo' => 'Play\'n GO',
+            'spribe' => 'Spribe Mini Games',
+            'evolution' => 'Evolution Live',
+            'sportsbook' => 'Sportsbook',
+            'amusnet' => 'Amusnet',
+            'no_limit' => 'NoLimit City',
+            'nolimit' => 'NoLimit City',
+            'reelkingdom' => 'Reel Kingdom',
             'amatic' => 'Amatic',
             'egt' => 'EGT Interactive',
             'habanero' => 'Habanero',
@@ -120,13 +165,10 @@ class GameController extends Controller
             'jokergaming' => 'Joker Gaming',
             'spadegaming' => 'Spadegaming',
             'fachai' => 'Fa Chai',
-            'fatpanda' => 'Fat Panda',
-            'toptrend' => 'Top Trend',
         ];
 
         $providersRaw = Game::select('provider_code', DB::raw('count(*) as count'))
             ->where('is_active', true)
-            ->where('category', '!=', 'live')
             ->whereNotNull('provider_code')
             ->groupBy('provider_code')
             ->orderByDesc('count')

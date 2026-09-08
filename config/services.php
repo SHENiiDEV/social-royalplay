@@ -36,10 +36,10 @@ return [
     ],
 
     'nexus_ggr' => [
-        'server' => env('GGR_API_SERVER', 'https://api.nexusggr.dev'),
-        'agent_code' => env('GGR_AGENT_CODE', 'crowdplay'),
-        'agent_token' => env('GGR_AGENT_TOKEN', 'c9540f990614ec0e60efa22d4c5fe5fe'),
-        'agent_secret' => env('GGR_AGENT_SECRET', '7e49159d19c1db28e7f70966b1242606'),
+        'server' => env('GGR_API_URL', env('GGR_API_SERVER', 'https://api.nexusggr.com')),
+        'agent_code' => env('GGR_AGENT_CODE', 'royalplay'),
+        'agent_token' => env('GGR_AGENT_TOKEN', '4ce1c45d75d90326811c4fb2cf3c3801'),
+        'agent_secret' => env('GGR_AGENT_SECRET', '0fbfd24390fac179e21e1ccee9d243ff'),
         'mock_mode' => env('GGR_MOCK_MODE', false),
     ],
 
