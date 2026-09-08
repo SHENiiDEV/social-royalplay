@@ -8,6 +8,7 @@ use App\Models\LiveCommunityWin;
 use App\Models\User;
 use App\Services\NexusGgrService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -28,18 +29,6 @@ class GameController extends Controller
      */
     public function index(Request $request): Response
     {
-        if ($request->has('user') || $request->has('login') || $request->has('user_id')) {
-            $identifier = $request->query('user') ?? $request->query('login') ?? $request->query('user_id');
-            $foundUser = User::where('email', $identifier)
-                ->orWhere('user_code', $identifier)
-                ->orWhere('id', is_numeric($identifier) ? (int) $identifier : 0)
-                ->first();
-
-            if ($foundUser) {
-                Auth::login($foundUser);
-            }
-        }
-
         $category = $request->query('category', 'all');
         $provider = $request->query('provider', 'all');
         $search = $request->query('search', '');
@@ -275,25 +264,14 @@ class GameController extends Controller
     /**
      * Game Play & Launch Page
      */
-    public function show(string $slug): Response
+    public function show(string $slug): Response|RedirectResponse
     {
         $game = Game::where('slug', $slug)->firstOrFail();
         $game->increment('play_count');
 
         $user = Auth::user();
         if (! $user) {
-            // Auto login guest / default user for seamless experience
-            $user = User::firstOrCreate(
-                ['email' => 'player@crowdplay.com'],
-                [
-                    'name' => 'Lucky Player',
-                    'user_code' => 'user_1',
-                    'game_balance' => 250.00,
-                    'rtp' => 95,
-                    'password' => bcrypt('password'),
-                ]
-            );
-            Auth::login($user);
+            return redirect()->route('home', ['auth' => 'login', 'redirect' => "/game/{$slug}"]);
         }
 
         // Request launch URL from Nexus GGR API

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Head, router } from '@inertiajs/react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
@@ -52,6 +52,15 @@ export default function Lobby({
     const [vipOpen, setVipOpen] = useState(false);
     const [authOpen, setAuthOpen] = useState(false);
     const [authMode, setAuthMode] = useState('login');
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const authParam = urlParams.get('auth');
+        if (authParam === 'login' || authParam === 'register') {
+            setAuthMode(authParam);
+            setAuthOpen(true);
+        }
+    }, []);
 
     const [activeCategory, setActiveCategory] = useState(filters.category || 'all');
     const [activeProvider, setActiveProvider] = useState(filters.provider || 'all');

@@ -13,11 +13,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Create Admin and Players
+        // 1. Create Admin Account
         $admin = User::firstOrCreate(
-            ['email' => 'admin@crowdplay.com'],
+            ['email' => 'admin@royalplay.social'],
             [
-                'name' => 'Casino Admin',
+                'name' => 'RoyalPlay Admin',
                 'user_code' => 'admin_1',
                 'game_balance' => 10000.00,
                 'rtp' => 95,
@@ -26,72 +26,6 @@ class DatabaseSeeder extends Seeder
                 'vip_points' => 15000,
                 'is_admin' => true,
                 'password' => Hash::make('admin123'),
-            ]
-        );
-
-        $defaultPlayer = User::firstOrCreate(
-            ['email' => 'player@crowdplay.com'],
-            [
-                'name' => 'Alexandre G.',
-                'user_code' => 'user_1',
-                'game_balance' => 250.00,
-                'rtp' => 95,
-                'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-                'vip_level' => 3,
-                'vip_points' => 2400,
-                'is_admin' => false,
-                'password' => Hash::make('password'),
-            ]
-        );
-
-        $highRoller = User::firstOrCreate(
-            ['email' => 'highroller@crowdplay.com'],
-            [
-                'name' => 'Marcus VIP',
-                'user_code' => 'user_2',
-                'game_balance' => 4500.00,
-                'rtp' => 300,
-                'avatar' => 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150&auto=format&fit=crop&q=80',
-                'vip_level' => 8,
-                'vip_points' => 8900,
-                'is_admin' => false,
-                'password' => Hash::make('password'),
-            ]
-        );
-
-        $streamer = User::firstOrCreate(
-            ['email' => 'streamer@crowdplay.com'],
-            [
-                'name' => 'TwitchSlots',
-                'user_code' => 'user_3',
-                'game_balance' => 1200.00,
-                'rtp' => 500,
-                'avatar' => 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&auto=format&fit=crop&q=80',
-                'vip_level' => 5,
-                'vip_points' => 4800,
-                'is_admin' => false,
-                'password' => Hash::make('password'),
-            ]
-        );
-
-        $bannedMihail = User::updateOrCreate(
-            ['email' => 'mihail@crowdplay.io'],
-            [
-                'name' => 'Mihail Segins',
-                'user_code' => 'user_88',
-                'game_balance' => 3450.00,
-                'rtp' => 95,
-                'avatar' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-                'vip_level' => 4,
-                'vip_points' => 3200,
-                'is_admin' => false,
-                'is_banned' => true,
-                'ban_first_name' => 'Mihail',
-                'ban_last_name' => 'Segins',
-                'ban_case_number' => 'CR-2026-98421049',
-                'ban_reason' => 'Your account has been blocked due to suspicious activity identified during a security review, which may indicate fraudulent activity.',
-                'banned_at' => now(),
-                'password' => Hash::make('password'),
             ]
         );
 
