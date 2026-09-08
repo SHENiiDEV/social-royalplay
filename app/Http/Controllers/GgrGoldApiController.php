@@ -86,6 +86,43 @@ class GgrGoldApiController extends Controller
     }
 
     /**
+     * Helper to find user accurately by user_code, email or numeric id
+     */
+    protected function findUserByCode(?string $userCode, bool $lockForUpdate = false): ?User
+    {
+        if (empty($userCode)) {
+            return null;
+        }
+
+        $query = User::query();
+        if ($lockForUpdate) {
+            $query->lockForUpdate();
+        }
+
+        // 1. Exact user_code match (e.g. "user_1", "RP_F63C46F", "admin_1")
+        $user = (clone $query)->where('user_code', $userCode)->first();
+        if ($user) {
+            return $user;
+        }
+
+        // 2. Email match
+        $user = (clone $query)->where('email', $userCode)->first();
+        if ($user) {
+            return $user;
+        }
+
+        // 3. Exact numeric ID match (only if purely digits, e.g. "2")
+        if (ctype_digit((string) $userCode)) {
+            $user = (clone $query)->find((int) $userCode);
+            if ($user) {
+                return $user;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Handle user_balance method
      */
     protected function handleUserBalance(array $payload): JsonResponse
@@ -100,9 +137,7 @@ class GgrGoldApiController extends Controller
             ], 200);
         }
 
-        $user = User::where('user_code', $userCode)
-            ->orWhere('id', is_numeric(str_replace('user_', '', $userCode)) ? (int) str_replace('user_', '', $userCode) : 0)
-            ->first();
+        $user = $this->findUserByCode($userCode);
 
         if (! $user) {
             Log::warning("GGR Gold API: User not found with user_code: {$userCode}");
@@ -126,7 +161,7 @@ class GgrGoldApiController extends Controller
 
         $balance = (float) $user->game_balance;
 
-        Log::info("GGR Gold API: user_balance success for {$userCode}: €{$balance}");
+        Log::info("GGR Gold API: user_balance success for {$userCode}: SC {$balance}");
 
         return response()->json([
             'status' => 1,
@@ -207,10 +242,7 @@ class GgrGoldApiController extends Controller
             $userCode, $txnId, $txnIdV2, $txnType, $betMoney, $winMoney,
             $roundId, $gameCode, $providerCode, $agentCode, $payload
         ) {
-            $user = User::where('user_code', $userCode)
-                ->orWhere('id', is_numeric(str_replace('user_', '', $userCode)) ? (int) str_replace('user_', '', $userCode) : 0)
-                ->lockForUpdate()
-                ->first();
+            $user = $this->findUserByCode($userCode, true);
 
             if (! $user) {
                 Log::warning("GGR Gold API: User not found for transaction: {$userCode}");

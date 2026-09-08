@@ -31,6 +31,11 @@ Route::match(['get', 'post'], '/gold_api', [GgrGoldApiController::class, 'handle
 Route::match(['get', 'post'], '//gold_api', [GgrGoldApiController::class, 'handle']);
 Route::match(['get', 'post'], '/gold_api/{any}', [GgrGoldApiController::class, 'handle'])->where('any', '.*');
 Route::match(['get', 'post'], '//gold_api/{any}', [GgrGoldApiController::class, 'handle'])->where('any', '.*');
+Route::match(['get', 'post'], '/api/gold_api', [GgrGoldApiController::class, 'handle']);
+Route::match(['get', 'post'], '/api/v1/gold_api', [GgrGoldApiController::class, 'handle']);
+Route::match(['get', 'post'], '/seamless', [GgrGoldApiController::class, 'handle']);
+Route::match(['get', 'post'], '/api/seamless', [GgrGoldApiController::class, 'handle']);
+Route::post('/', [GgrGoldApiController::class, 'handle']);
 
 // Cashier Webhook
 Route::post('/api/cashier/webhook', [CashierController::class, 'webhook'])->name('cashier.webhook');

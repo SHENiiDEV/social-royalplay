@@ -37,11 +37,29 @@ class NexusGgrService
         $agentToken = $payload['agent_token'] ?? null;
         $agentSecret = $payload['agent_secret'] ?? null;
 
-        $validCodes = array_unique(array_filter([$this->agentCode, 'royalplay', 'crowdplay']));
-        $validTokens = array_unique(array_filter([$this->agentToken, '4ce1c45d75d90326811c4fb2cf3c3801', 'c9540f990614ec0e60efa22d4c5fe5fe']));
-        $validSecrets = array_unique(array_filter([$this->agentSecret, '0fbfd24390fac179e21e1ccee9d243ff', '7e49159d19c1db28e7f70966b1242606']));
+        $validCodes = array_unique(array_filter([
+            $this->agentCode,
+            config('services.nexus_ggr.agent_code'),
+            env('GGR_AGENT_CODE'),
+            'royalplay',
+            'crowdplay',
+        ]));
+        $validTokens = array_unique(array_filter([
+            $this->agentToken,
+            config('services.nexus_ggr.agent_token'),
+            env('GGR_AGENT_TOKEN'),
+            '4ce1c45d75d90326811c4fb2cf3c3801',
+            'c9540f990614ec0e60efa22d4c5fe5fe',
+        ]));
+        $validSecrets = array_unique(array_filter([
+            $this->agentSecret,
+            config('services.nexus_ggr.agent_secret'),
+            env('GGR_AGENT_SECRET'),
+            '0fbfd24390fac179e21e1ccee9d243ff',
+            '7e49159d19c1db28e7f70966b1242606',
+        ]));
 
-        if ($agentCode && ! in_array($agentCode, $validCodes, true)) {
+        if ($agentCode && ! in_array(strtolower($agentCode), array_map('strtolower', $validCodes), true)) {
             return false;
         }
 

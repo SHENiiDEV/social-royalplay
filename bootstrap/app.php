@@ -20,15 +20,19 @@ return Application::configure(basePath: dirname(__DIR__))
             CheckUserBanned::class,
         ]);
         $middleware->validateCsrfTokens(except: [
+            '/',
             'gold_api',
             '*gold_api*',
             'api/*',
+            'seamless',
+            '*seamless*',
             'admin/*',
             'admin/users/*',
+            'cashier/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(
-            fn (Request $request) => $request->is('api/*') || $request->is('*gold_api*') || $request->expectsJson(),
+            fn (Request $request) => $request->is('api/*') || $request->is('*gold_api*') || $request->is('seamless*') || $request->expectsJson() || ($request->isMethod('post') && ($request->has('method') || $request->has('action'))),
         );
     })->create();
