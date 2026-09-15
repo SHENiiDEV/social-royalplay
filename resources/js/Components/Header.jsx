@@ -91,16 +91,16 @@ export default function Header({
             <div className="max-w-7xl mx-auto px-3 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-2 md:gap-4">
                 
                 {/* Logo & Brand */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                     <Link href="/" className="flex items-center group py-1" title="RoyalPlay Social Casino">
                         <img
                             src="/images/logo.png"
                             alt="RoyalPlay Social Casino"
-                            className="h-12 sm:h-14 md:h-16 w-auto object-contain drop-shadow-[0_0_16px_rgba(245,158,11,0.45)] group-hover:scale-105 transition-transform duration-300"
+                            className="h-9 sm:h-12 md:h-16 w-auto object-contain drop-shadow-[0_0_16px_rgba(245,158,11,0.45)] group-hover:scale-105 transition-transform duration-300"
                         />
                     </Link>
 
-                    {/* Header Jackpot Pill */}
+                    {/* Header Jackpot Pill (Desktop) */}
                     <div className="hidden xl:flex items-center gap-2.5 px-3 py-1.5 rounded-2xl bg-gradient-to-r from-amber-950/40 via-amber-900/20 to-black/60 border border-amber-500/40 shadow-inner">
                         <div className="w-6 h-6 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400">
                             <Sparkles className="w-3.5 h-3.5" />
@@ -116,19 +116,19 @@ export default function Header({
                     </div>
                 </div>
 
-                {/* Center Quick Bonus Action Buttons */}
-                <div className="flex items-center gap-2">
+                {/* Center Quick Bonus Action Buttons (Hidden on mobile to avoid cramming, available in hero and bottom bar) */}
+                <div className="hidden md:flex items-center gap-2">
                     {/* Wheel of Fortune Button */}
                     <button
                         onClick={onOpenWheel}
-                        className={`px-3 py-1.5 md:py-2 rounded-xl text-xs font-black tracking-wide flex items-center gap-1.5 border transition-all cursor-pointer ${
+                        className={`px-3.5 py-2 rounded-xl text-xs font-black tracking-wide flex items-center gap-2 border transition-all cursor-pointer ${
                             user?.can_spin_wheel
                                 ? 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 border-pink-400/60 text-white shadow-lg shadow-fuchsia-500/30 animate-pulse hover:scale-105'
                                 : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:border-slate-700'
                         }`}
                     >
                         <span className="text-sm">🎡</span>
-                        <span className="hidden sm:inline">Daily Wheel</span>
+                        <span>Daily Wheel</span>
                         {user?.can_spin_wheel && (
                             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                         )}
@@ -137,7 +137,7 @@ export default function Header({
                     {/* Free Daily 1.00 SC */}
                     <button
                         onClick={onOpenStore}
-                        className={`px-3 py-1.5 md:py-2 rounded-xl text-xs font-black tracking-wide flex items-center gap-1.5 border transition-all cursor-pointer ${
+                        className={`px-3.5 py-2 rounded-xl text-xs font-black tracking-wide flex items-center gap-2 border transition-all cursor-pointer ${
                             user?.can_claim_daily_bonus
                                 ? 'bg-gradient-to-r from-emerald-600 to-teal-500 border-emerald-400/60 text-white shadow-lg shadow-emerald-500/30 hover:scale-105'
                                 : 'bg-slate-900/80 border-slate-800 text-slate-300 hover:border-slate-700'
@@ -149,16 +149,16 @@ export default function Header({
                 </div>
 
                 {/* Right Wallet & Profile Actions */}
-                <div className="flex items-center gap-2 sm:gap-3">
+                <div className="flex items-center gap-1.5 sm:gap-3">
                     {user ? (
                         <>
                             {/* User Balance Wallet Box */}
-                            <div className="flex items-center bg-[#111622] border border-amber-500/40 rounded-2xl p-1 shadow-md">
-                                <div className="px-3 py-1 text-right">
-                                    <div className="text-[9px] uppercase font-extrabold text-slate-400 tracking-wider">
+                            <div className="flex items-center bg-[#111622] border border-amber-500/40 rounded-xl sm:rounded-2xl p-0.5 sm:p-1 shadow-md">
+                                <div className="px-2 sm:px-3 py-0.5 sm:py-1 text-right">
+                                    <div className="text-[8px] sm:text-[9px] uppercase font-extrabold text-slate-400 tracking-wider leading-none">
                                         Wallet
                                     </div>
-                                    <div className="text-sm md:text-base font-mono font-black text-amber-400 leading-tight">
+                                    <div className="text-xs sm:text-sm md:text-base font-mono font-black text-amber-400 leading-tight">
                                         {formatEuro(liveBalance)}
                                     </div>
                                 </div>
@@ -166,9 +166,9 @@ export default function Header({
                                 <button
                                     onClick={onOpenStore}
                                     title="Top up coins"
-                                    className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black flex items-center justify-center font-black shadow-lg shadow-amber-500/30 active:scale-95 transition cursor-pointer"
+                                    className="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 rounded-lg sm:rounded-xl bg-gradient-to-tr from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black flex items-center justify-center font-black shadow-lg shadow-amber-500/30 active:scale-95 transition cursor-pointer shrink-0"
                                 >
-                                    <Plus className="w-4 h-4 md:w-5 md:h-5 stroke-[3]" />
+                                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[3]" />
                                 </button>
                             </div>
 

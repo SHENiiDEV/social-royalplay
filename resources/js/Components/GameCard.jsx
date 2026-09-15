@@ -70,27 +70,29 @@ export default function GameCard({ game, initialIsFavorite = false, onFavoriteTo
     };
 
     return (
-        <div className="group relative rounded-3xl bg-[#101522] border border-slate-800 hover:border-amber-500/60 transition-all duration-300 overflow-hidden flex flex-col shadow-xl hover:shadow-2xl hover:shadow-amber-500/15 hover:-translate-y-1.5">
+        <div className="group relative rounded-2xl sm:rounded-3xl bg-[#101522] border border-slate-800 hover:border-amber-500/60 transition-all duration-300 overflow-hidden flex flex-col shadow-xl hover:shadow-2xl hover:shadow-amber-500/15 hover:-translate-y-1.5">
             
-            {/* Thumbnail Image Container */}
+            {/* Thumbnail Image Container with Link */}
             <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-950">
-                <img
-                    src={game.cover_image || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80'}
-                    alt={game.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
-                    loading="lazy"
-                />
+                <Link href={`/game/${game.slug}`} className="block w-full h-full cursor-pointer">
+                    <img
+                        src={game.cover_image || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80'}
+                        alt={game.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                        loading="lazy"
+                    />
+                </Link>
 
                 {/* Top Badges & Favorite Button */}
-                <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10 pointer-events-none">
-                    <span className={`text-[11px] font-black uppercase tracking-wider px-2.5 py-1 rounded-xl border backdrop-blur-md ${providerInfo.color}`}>
+                <div className="absolute top-2 sm:top-2.5 left-2 sm:left-2.5 right-2 sm:right-2.5 flex items-center justify-between z-10 pointer-events-none">
+                    <span className={`text-[9px] sm:text-[11px] font-black uppercase tracking-wider px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg sm:rounded-xl border backdrop-blur-md ${providerInfo.color}`}>
                         {providerInfo.name}
                     </span>
 
-                    <div className="flex items-center gap-2 pointer-events-auto">
+                    <div className="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
                         {game.is_featured && (
-                            <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-black shadow-md shadow-amber-500/40">
-                                <Flame className="w-3.5 h-3.5 fill-black" />
+                            <span className="flex items-center gap-1 text-[9px] sm:text-[10px] font-black uppercase tracking-wider px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg sm:rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 text-black shadow-md shadow-amber-500/40">
+                                <Flame className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-black" />
                                 HOT
                             </span>
                         )}
@@ -98,33 +100,33 @@ export default function GameCard({ game, initialIsFavorite = false, onFavoriteTo
                         {/* Favorite Button */}
                         <button
                             onClick={handleToggleFavorite}
-                            className={`p-2 rounded-xl backdrop-blur-md border transition cursor-pointer active:scale-90 ${
+                            className={`p-1.5 sm:p-2 rounded-lg sm:rounded-xl backdrop-blur-md border transition cursor-pointer active:scale-90 ${
                                 isFavorite
                                     ? 'bg-rose-500/40 border-rose-500 text-rose-400 shadow-md shadow-rose-500/30'
                                     : 'bg-black/70 border-white/15 text-slate-300 hover:text-white hover:border-white/40'
                             }`}
                             title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                         >
-                            <Heart className={`w-4 h-4 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
+                            <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
                         </button>
                     </div>
                 </div>
 
                 {/* Bottom Overlay Info on image */}
-                <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none z-10">
-                    <span className="text-[11px] font-mono font-bold px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-md text-slate-300 border border-white/10">
+                <div className="absolute bottom-2 sm:bottom-2.5 left-2 sm:left-2.5 right-2 sm:right-2.5 flex items-center justify-between pointer-events-none z-10">
+                    <span className="text-[9px] sm:text-[11px] font-mono font-bold px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-black/80 backdrop-blur-md text-slate-300 border border-white/10">
                         RTP: {game.rtp_display}
                     </span>
 
                     {game.max_multiplier && (
-                        <span className="text-[11px] font-mono font-black px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-400 to-yellow-400 text-black shadow-md shadow-amber-500/30">
+                        <span className="text-[9px] sm:text-[11px] font-mono font-black px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md sm:rounded-lg bg-gradient-to-r from-amber-400 to-yellow-400 text-black shadow-md shadow-amber-500/30">
                             {Number(game.max_multiplier).toLocaleString()}x
                         </span>
                     )}
                 </div>
 
-                {/* Hover Play Button Overlay (No Demo) */}
-                <div className="absolute inset-0 bg-black/65 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3 p-5 z-20">
+                {/* Desktop Hover Play Button Overlay */}
+                <div className="hidden md:flex absolute inset-0 bg-black/65 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-col items-center justify-center gap-3 p-5 z-20">
                     <Link
                         href={`/game/${game.slug}`}
                         className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-black font-black text-sm uppercase tracking-wider shadow-xl shadow-amber-500/40 active:scale-95 transition transform flex items-center justify-center gap-2 cursor-pointer"
@@ -149,13 +151,15 @@ export default function GameCard({ game, initialIsFavorite = false, onFavoriteTo
             </div>
 
             {/* Bottom Details */}
-            <div className="p-4 flex items-center justify-between gap-2">
+            <div className="p-2.5 sm:p-4 flex items-center justify-between gap-1.5 sm:gap-2">
                 <div className="flex flex-col truncate pr-1">
-                    <h3 className="font-extrabold text-base md:text-lg text-slate-100 truncate group-hover:text-amber-400 transition-colors">
-                        {game.name}
-                    </h3>
-                    <div className="flex items-center gap-2 text-xs text-slate-400 font-mono mt-1">
-                        <span>Min: SC {Number(game.min_bet).toFixed(2)}</span>
+                    <Link href={`/game/${game.slug}`} className="hover:underline">
+                        <h3 className="font-extrabold text-xs sm:text-base md:text-lg text-slate-100 truncate group-hover:text-amber-400 transition-colors">
+                            {game.name}
+                        </h3>
+                    </Link>
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-slate-400 font-mono mt-0.5 sm:mt-1">
+                        <span>Min: {Number(game.min_bet).toFixed(2)}</span>
                         <span>•</span>
                         <span className="text-amber-400/90 font-bold">{game.volatility}</span>
                     </div>
@@ -163,10 +167,10 @@ export default function GameCard({ game, initialIsFavorite = false, onFavoriteTo
 
                 <Link
                     href={`/game/${game.slug}`}
-                    className="w-10 h-10 rounded-2xl bg-slate-800/90 group-hover:bg-gradient-to-r group-hover:from-amber-500 group-hover:to-yellow-400 group-hover:text-black text-slate-300 flex items-center justify-center transition-all shadow-md group-hover:shadow-amber-500/30 shrink-0 cursor-pointer"
+                    className="w-7 h-7 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-slate-800/90 group-hover:bg-gradient-to-r group-hover:from-amber-500 group-hover:to-yellow-400 group-hover:text-black text-slate-300 flex items-center justify-center transition-all shadow-md group-hover:shadow-amber-500/30 shrink-0 cursor-pointer"
                     title="Play Now"
                 >
-                    <Play className="w-4 h-4 fill-current ml-0.5" />
+                    <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current ml-0.5" />
                 </Link>
             </div>
 

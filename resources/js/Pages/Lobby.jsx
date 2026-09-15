@@ -23,7 +23,10 @@ import {
     Trophy,
     Gamepad2,
     Tv,
-    Heart
+    Heart,
+    Gift,
+    User,
+    LogIn
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -150,7 +153,7 @@ export default function Lobby({
             <LiveWinnersBar initialWins={liveWins} />
 
             {/* Main Content Area */}
-            <main className="flex-1 max-w-7xl mx-auto px-3 sm:px-6 w-full space-y-6 md:space-y-10 pb-16">
+            <main className="flex-1 max-w-7xl mx-auto px-3 sm:px-6 w-full space-y-5 sm:space-y-6 md:space-y-10 pb-24 md:pb-16">
                 
                 {/* Hero Showcase Banners */}
                 <HeroBanners
@@ -333,6 +336,80 @@ export default function Lobby({
                 onClose={() => setAuthOpen(false)}
                 company={company}
             />
+
+            {/* Mobile Bottom Navigation Bar */}
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#090d16]/95 backdrop-blur-xl border-t border-slate-800 flex items-center justify-around py-2 px-2 shadow-2xl safe-area-bottom">
+                
+                {/* 1. Lobby */}
+                <button
+                    onClick={() => {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="flex flex-col items-center justify-center gap-1 text-slate-300 hover:text-amber-400 transition cursor-pointer flex-1"
+                >
+                    <LayoutGrid className="w-5 h-5 text-amber-400" />
+                    <span className="text-[10px] font-bold">Lobby</span>
+                </button>
+
+                {/* 2. Daily Wheel */}
+                <button
+                    onClick={() => setWheelOpen(true)}
+                    className="relative flex flex-col items-center justify-center gap-1 text-slate-300 hover:text-purple-400 transition cursor-pointer flex-1"
+                >
+                    <span className="text-xl leading-none">🎡</span>
+                    <span className="text-[10px] font-bold">Wheel</span>
+                    {auth?.user?.can_spin_wheel && (
+                        <span className="absolute top-0 right-3 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                    )}
+                </button>
+
+                {/* 3. Center Big Coin / Store Button */}
+                <button
+                    onClick={() => setStoreOpen(true)}
+                    className="relative flex flex-col items-center justify-center -mt-5 cursor-pointer px-2"
+                >
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 via-yellow-400 to-amber-300 text-black flex items-center justify-center shadow-lg shadow-amber-500/40 border-2 border-[#090d16] active:scale-95 transition-transform">
+                        <Gift className="w-6 h-6 stroke-[2.5]" />
+                    </div>
+                    <span className="text-[10px] font-black text-amber-400 mt-1 uppercase tracking-wider">Free Coins</span>
+                </button>
+
+                {/* 4. VIP Club */}
+                <button
+                    onClick={() => setVipOpen(true)}
+                    className="flex flex-col items-center justify-center gap-1 text-slate-300 hover:text-amber-400 transition cursor-pointer flex-1"
+                >
+                    <Crown className="w-5 h-5 text-amber-400" />
+                    <span className="text-[10px] font-bold">VIP</span>
+                </button>
+
+                {/* 5. Account / Auth */}
+                {auth?.user ? (
+                    <button
+                        onClick={() => setStoreOpen(true)}
+                        className="flex flex-col items-center justify-center gap-1 text-slate-300 hover:text-white transition cursor-pointer flex-1"
+                    >
+                        <img
+                            src={auth.user.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${auth.user.name || 'Player'}`}
+                            alt="Avatar"
+                            className="w-5 h-5 rounded-full object-cover border border-amber-500/50"
+                        />
+                        <span className="text-[10px] font-bold truncate max-w-[50px]">Profile</span>
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => {
+                            setAuthMode('login');
+                            setAuthOpen(true);
+                        }}
+                        className="flex flex-col items-center justify-center gap-1 text-slate-300 hover:text-amber-400 transition cursor-pointer flex-1"
+                    >
+                        <LogIn className="w-5 h-5 text-amber-400" />
+                        <span className="text-[10px] font-bold">Sign In</span>
+                    </button>
+                )}
+
+            </nav>
 
             {/* Full Screen Emergency Police Ban Alert */}
             <FullScreenBanAlert user={auth?.user} company={company} />
