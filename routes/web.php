@@ -25,6 +25,19 @@ Route::get('/fair-play', [LegalController::class, 'fairplay'])->name('legal.fair
 Route::get('/legal/fair-play', [LegalController::class, 'fairplay']);
 Route::get('/kyc-aml', [LegalController::class, 'kyc'])->name('legal.kyc');
 Route::get('/legal/kyc-aml', [LegalController::class, 'kyc']);
+Route::get('/payment-security', [LegalController::class, 'payments'])->name('legal.payments');
+Route::get('/legal/payments', [LegalController::class, 'payments']);
+Route::get('/cookies', [LegalController::class, 'cookies'])->name('legal.cookies');
+Route::get('/legal/cookies', [LegalController::class, 'cookies']);
+Route::get('/sweepstakes-rules', [LegalController::class, 'sweepstakes'])->name('legal.sweepstakes');
+Route::get('/legal/sweepstakes', [LegalController::class, 'sweepstakes']);
+
+// Informational Articles & Strategy Guides
+Route::get('/guides/how-it-works', [LegalController::class, 'guideSocial'])->name('guides.how-it-works');
+Route::get('/guides/rtp-volatility', [LegalController::class, 'guideRtp'])->name('guides.rtp-volatility');
+Route::get('/guides/vip-rewards', [LegalController::class, 'guideVip'])->name('guides.vip-rewards');
+Route::get('/guides/slots-strategy', [LegalController::class, 'guideSlots'])->name('guides.slots-strategy');
+Route::get('/legal/{tab}', [LegalController::class, 'show'])->name('legal.show');
 
 // CRITICAL: Nexus GGR Gold API Seamless Wallet Webhook
 Route::match(['get', 'post'], '/gold_api', [GgrGoldApiController::class, 'handle'])->name('gold_api.webhook');
