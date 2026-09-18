@@ -232,40 +232,48 @@ export default function Legal({ auth, initialTab = 'terms', company = {} }) {
                                 <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
                                     <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                                     <div className="text-xs text-amber-200 leading-relaxed">
-                                        <strong>Social Gaming Notice:</strong> RoyalPlay is a free-to-play social casino intended exclusively for entertainment purposes for players aged 18 and older. Virtual Coins (SC) have no cash value and cannot be exchanged for real money.
+                                        <strong>EU Social Gaming & Consumer Notice:</strong> RoyalPlay is a free-to-play social casino intended exclusively for amusement purposes for players aged 18 and older across the European Union and authorized international jurisdictions. Virtual Standard Coins (SC) have zero monetary cash value, cannot be redeemed for fiat currency or physical prizes, and are strictly non-transferable.
                                     </div>
                                 </div>
 
                                 <section className="space-y-2.5">
                                     <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                                         <span className="w-6 h-6 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center font-mono text-xs">1</span>
-                                        Eligibility & Account Security
+                                        Eligibility, Age Verification (18+) & Minor Protection
                                     </h3>
-                                    <p>You must be at least 18 years of age (or the legal age of majority in your jurisdiction) to open an account or play games on RoyalPlay. Only one account per person, household, IP address, and device is permitted. Accounts found to be duplicate, automated, or operated by third parties are subject to immediate suspension.</p>
+                                    <p>You must be at least 18 years of age (or the legal age of majority in your European jurisdiction) to create an account or access games on RoyalPlay. Minors under 18 years old are strictly prohibited from registration and coin pack purchases. Direct pressure, predatory marketing, or promotional targeting towards children is categorically barred.</p>
                                 </section>
 
                                 <section className="space-y-2.5">
                                     <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                                         <span className="w-6 h-6 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center font-mono text-xs">2</span>
-                                        Virtual Game Balances & Wallet Mechanics
+                                        Virtual Game Balances & Seamless Wallet Mechanics
                                     </h3>
-                                    <p>All virtual coins and balances (Standard Coins / SC) are non-transferable, cannot be redeemed for fiat currency, and remain the property of RoyalPlay Entertainment N.V. Game outcomes and balance transfers are managed via secure Seamless Wallet protocols directly integrated with certified provider servers.</p>
+                                    <p>Standard Coins (SC) and VIP Points are virtual digital items licensed to you for in-game entertainment. SC cannot be redeemed, refunded as real cash, or exchanged for real prizes. Balance transfers and RNG rounds operate over cryptographically secured Seamless Wallet connections integrated with certified game studios.</p>
                                 </section>
 
                                 <section className="space-y-2.5">
                                     <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                                         <span className="w-6 h-6 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center font-mono text-xs">3</span>
-                                        VIP Points & Loyalty Tiers
+                                        Strict Prohibition on Secondary Trading & Peer-to-Peer Transfers
                                     </h3>
-                                    <p>VIP Loyalty Points are granted upon coin package deposits. VIP points grant access to higher tier levels, increased daily bonus allocations, and exclusive gameplay features. RoyalPlay reserves the right to adjust reward schedules and VIP perk tier thresholds with appropriate platform notification.</p>
+                                    <p>Players are strictly forbidden from selling, buying, trading, or transferring RoyalPlay accounts, virtual balances, or VIP statuses on secondary platforms, black-market marketplaces, or through private peer-to-peer agreements. Any account engaged in real-money trading of virtual currency will be permanently terminated immediately.</p>
                                 </section>
 
                                 <section className="space-y-2.5">
                                     <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                                         <span className="w-6 h-6 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center font-mono text-xs">4</span>
-                                        Prohibited Activities & Fair Play Enforcement
+                                        EU Consumer Rights & 14-Day Statutory Right of Withdrawal
                                     </h3>
-                                    <p>Users may not exploit software vulnerabilities, use automated scripts, bot engines, VPN obfuscation to bypass country restrictions, or engage in collusive behavior. Any manipulated transactions or balance tampering will result in immediate termination of access under Curaçao regulatory compliance.</p>
+                                    <p>In accordance with EU Consumer Rights Directive 2011/83/EU, consumers have a 14-day statutory right of withdrawal from the date of purchasing an optional coin pack, provided the virtual currency remains entirely unspent and unused. If any portion of the purchased virtual coins is staked in game rounds, you expressly acknowledge and agree that digital performance has begun and the statutory right of withdrawal is waived.</p>
+                                </section>
+
+                                <section className="space-y-2.5">
+                                    <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                                        <span className="w-6 h-6 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center font-mono text-xs">5</span>
+                                        Transparent EUR Pricing & Free-To-Play Guarantee
+                                    </h3>
+                                    <p>No purchase is ever required to play on RoyalPlay. All optional coin packs are priced clearly in Euros (€) inclusive of all taxes. Complimentary Standard Coins are delivered daily to all players via the Daily Bonus and the Wheel of Fortune.</p>
                                 </section>
                             </div>
                         )}
@@ -467,9 +475,9 @@ export default function Legal({ auth, initialTab = 'terms', company = {} }) {
                                 <section className="space-y-2.5">
                                     <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
                                         <span className="w-6 h-6 rounded-lg bg-slate-800 text-amber-400 flex items-center justify-center font-mono text-xs">2</span>
-                                        Refund & Dispute Resolution
+                                        EU 14-Day Statutory Right of Withdrawal & Refund Policy
                                     </h3>
-                                    <p>Because virtual coins are consumed upon gameplay engagement, purchases are generally final. However, if a technical glitch prevents coin delivery, our support team at <a href="mailto:support@royalplay.social" className="text-amber-400 underline">support@royalplay.social</a> will review transaction logs and reissue balance within 24 business hours.</p>
+                                    <p>Under EU Directive 2011/83/EU, consumers have a 14-day right of withdrawal for unused and unspent virtual coin bundles. If any portion of the coins is used in gameplay sessions, digital performance has commenced with your consent and the withdrawal right is waived. For unspent package cancellations or technical delivery issues, contact our billing desk at <a href="mailto:support@royalplay.social" className="text-amber-400 underline">support@royalplay.social</a>.</p>
                                 </section>
                             </div>
                         )}

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Head, router } from '@inertiajs/react';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
-import LiveWinnersBar from '../Components/LiveWinnersBar';
 import HeroBanners from '../Components/HeroBanners';
 import GameCard from '../Components/GameCard';
 import Pagination from '../Components/Pagination';
@@ -148,9 +147,6 @@ export default function Lobby({
                     setAuthOpen(true);
                 }}
             />
-
-            {/* Live Community Winners Marquee */}
-            <LiveWinnersBar initialWins={liveWins} />
 
             {/* Main Content Area */}
             <main className="flex-1 max-w-7xl mx-auto px-3 sm:px-6 w-full space-y-5 sm:space-y-6 md:space-y-10 pb-24 md:pb-16">

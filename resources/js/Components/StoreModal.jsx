@@ -385,6 +385,31 @@ export default function StoreModal({ isOpen, onClose, user }) {
                             );
                         })}
                     </div>
+
+                    {/* EU Consumer Protection & Statutory 14-Day Right of Withdrawal Disclosure */}
+                    <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 text-[11px] text-slate-400 space-y-2">
+                        <div className="flex items-center justify-between text-slate-300 font-bold text-xs">
+                            <span className="flex items-center gap-1.5 text-amber-400">
+                                <ShieldCheck className="w-4 h-4" />
+                                <span>EU Consumer Protection & Pre-Purchase Disclosures</span>
+                            </span>
+                            <span className="text-[10px] px-2 py-0.5 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 font-black">
+                                18+ ONLY
+                            </span>
+                        </div>
+                        <ul className="list-disc list-inside space-y-1 text-[10px] leading-relaxed text-slate-400">
+                            <li>
+                                <strong className="text-slate-300">14-Day Right of Withdrawal:</strong> Pursuant to EU Directive 2011/83/EU, consumers maintain a 14-day statutory right of cancellation for unspent virtual currency packs. Once coins are used in game sessions, digital performance begins and withdrawal rights are waived.
+                            </li>
+                            <li>
+                                <strong className="text-slate-300">No Cash Value & No Secondary Trading:</strong> Standard Coins (SC) are virtual digital items for amusement purposes only, have no monetary redemption value, and cannot be traded or sold for real money on secondary platforms.
+                            </li>
+                            <li>
+                                <strong className="text-slate-300">Transparent Pricing:</strong> All packages are priced clearly in Euros (€) including applicable VAT. Free coins are provided daily without any purchase requirement.
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
 
                 {/* Footer Badges */}
@@ -393,7 +418,7 @@ export default function StoreModal({ isOpen, onClose, user }) {
                         <span className="flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> SSL 256-Bit Encrypted</span>
                         <span className="flex items-center gap-1"><Zap className="w-3.5 h-3.5 text-amber-400" /> Instant Coin Delivery</span>
                     </div>
-                    <div>Rate: 1 EUR = 0.50 SC • Max +30% Bonus (€1,000+)</div>
+                    <div>Rate: 1 EUR = 0.50 SC • All Prices in EUR (€)</div>
                 </div>
 
             </div>
